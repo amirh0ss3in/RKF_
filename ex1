@@ -106,7 +106,7 @@ def rkf( f, a, b, x0, atol, rtol, hmax, hmin ):
         if h > hmax:
             h = hmax
         elif h < hmin or t==t-h:
-            raise RuntimeError("Error: Could not converge to the required tolerance %e with minimum stepsize  %e. t=%g h=%e" % (tol,hmin,t,h))
+            raise RuntimeError("Error: Could not converge to the required tolerance %e with minimum stepsize  %e. t=%g h=%e" % ('tol',hmin,t,h))
             break
     return (X, T)
     
