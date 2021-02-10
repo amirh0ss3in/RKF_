@@ -5,7 +5,7 @@ import time
 
 start_time = time.clock()
 
-@numba.jit()
+
 def S1(x,u):
     alpha = 0.01
     C1 = 0.00096*alpha
@@ -36,7 +36,7 @@ def S1(x,u):
     return np.array([dBY,dnB,dneL,dneR])
 
 
-@numba.jit()
+
 def rkf( f, a, b, x0, atol, rtol, hmax, hmin ):
 
     a2  =   2.500000000000000e-01  #  1/4
