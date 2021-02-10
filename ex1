@@ -1,10 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt 
-import numba
+import matplotlib.ticker as mticker
 import time
 
 start_time = time.clock()
-
 
 def S1(x,u):
     alpha = 0.01
@@ -34,8 +33,6 @@ def S1(x,u):
     dnB= (3/2)*(u1+u2)
     dBY= (1/(x**0.5))*(-C5-C6*nT)*BY - BY/x + (C7*B+C8* dn**2) * (v/(x**1.5))
     return np.array([dBY,dnB,dneL,dneR])
-
-
 
 def rkf( f, a, b, x0, atol, rtol, hmax, hmin ):
 
@@ -113,7 +110,7 @@ def rkf( f, a, b, x0, atol, rtol, hmax, hmin ):
 S1u0=np.array([0,0,0,0])
 np.seterr(all='ignore')
 
-u,t =rkf( f=S1, a=1e-4, b=1, x0=S1u0, atol=1e-10, rtol=1e-8 , hmax=1e-1, hmin=1e-40)
+u,t =rkf( f=S1, a=1e-4, b=1, x0=S1u0, atol=1e-10, rtol=1e-6 , hmax=1e-1, hmin=1e-40)
 
 print("Execution time:",time.clock() - start_time, "seconds")
 BY,nB,neL,neR = u.T
@@ -149,5 +146,19 @@ plt.plot(t,neR,color="Blue")
 plt.xscale('log')
 plt.xlabel(r'$x$',fontsize=f)
 plt.ylabel(r'$\eta_{e_{R}}(x)$',fontsize=f)
+plt.tight_layout()
+plt.show()
+
+fig1, ax1 = plt.subplots()
+csfont = {'fontname':'Times New Roman'}
+ax1.plot(t[:-1],t[1:]-t[:-1],'-ob', lw=0.5, ms=2)
+plt.xlabel(r'$x$',fontsize=f)
+plt.ylabel('Step size',fontsize=f,**csfont)
+left, bottom, width, height = [0.21, 0.6, 0.28, 0.28]
+ax2 = fig1.add_axes([left, bottom, width, height])
+line2=ax2.plot((t[:-1])[:int(len(BY)*5e-1)],(t[1:]-t[:-1])[:int(len(BY)*5e-1)],'-ob', lw=0.5, ms=2)
+f = mticker.ScalarFormatter(useOffset=False, useMathText=False)
+g = lambda x,pos : "${}$".format(f._formatSciNotation('%1.10e' % x))
+ax2.xaxis.set_major_formatter(mticker.FuncFormatter(g))
 plt.tight_layout()
 plt.show()
