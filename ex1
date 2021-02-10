@@ -154,11 +154,11 @@ csfont = {'fontname':'Times New Roman'}
 ax1.plot(t[:-1],t[1:]-t[:-1],'-ob', lw=0.5, ms=2)
 plt.xlabel(r'$x$',fontsize=f)
 plt.ylabel('Step size',fontsize=f,**csfont)
+plt.tight_layout()
 left, bottom, width, height = [0.21, 0.6, 0.28, 0.28]
 ax2 = fig1.add_axes([left, bottom, width, height])
 line2=ax2.plot((t[:-1])[:int(len(BY)*5e-1)],(t[1:]-t[:-1])[:int(len(BY)*5e-1)],'-ob', lw=0.5, ms=2)
 f = mticker.ScalarFormatter(useOffset=False, useMathText=False)
 g = lambda x,pos : "${}$".format(f._formatSciNotation('%1.10e' % x))
 ax2.xaxis.set_major_formatter(mticker.FuncFormatter(g))
-plt.tight_layout()
 plt.show()
